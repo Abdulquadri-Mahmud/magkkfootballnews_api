@@ -3,7 +3,7 @@ import { errorHandler } from "../utils/errorHandler.js";
 import Products from "../model/products_model.js";
 
 export const createProducts = async (req, res, next) => {
-    const { name,category, 
+    const { name,category, price, 
         image, description, discount, discountType, } = req.body;
 
     try {
