@@ -5,7 +5,7 @@ import Betslip from "../model/Betslip_model.js";
 export const createBetslip = async (req, res, next) => {
     const { betcode,category, 
         image, description } = req.body;
-
+        
     try {
         const Betslip = new Betslip({
             betcode,category, image,
