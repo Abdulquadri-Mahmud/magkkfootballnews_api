@@ -22,8 +22,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "engines": {
-  "node": "16.x"
-}
+  "description": ""
 }
