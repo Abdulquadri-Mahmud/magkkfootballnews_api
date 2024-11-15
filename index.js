@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 
 import userAuthentication from './routes/user_auth.js';
 import productsRoutes from './routes/products_route.js'
-import betslipRoutes from './routes/betslip_route.js'
+// import betslipRoutes from './routes/betslip_route.js'
 import newsRoutes from './routes/news_routes.js'
 import adminAuthentication from './routes/admin_auth_routes.js'
 
@@ -43,7 +43,7 @@ app.get("/",(req, res,) => {
 
 app.use('/api/products', productsRoutes);
 app.use('/api/user/auth', userAuthentication);
-app.use('/api/betslip', betslipRoutes);
+// app.use('/api/betslip', betslipRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/admin/auth', adminAuthentication);
 
