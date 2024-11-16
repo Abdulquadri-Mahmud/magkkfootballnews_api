@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api/user/auth', userAuthentications);
-app.use('/api/admin/auth', adminAuthentications);
+// app.use('/api/admin/auth', adminAuthentications);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
