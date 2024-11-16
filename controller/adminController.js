@@ -30,6 +30,47 @@ export const adminSignup = async (req, res, next) => {
     }
 }
 
+export const deleteAccount = async (req, res, next) => {
+    const getAdminParamsID = req.params.id;
+
+    // if (req.user.id !== getUserParamsID) {
+    //     return next(errorHandler(401, 'You can only deleted your account!'));
+    // }
+    const findAdmin = await Admin.findById(getAdminParamsID);
+
+    try {
+
+        if (!findAdmin) {
+            next(errorHandler(404, 'The Account You are trying to delete is not found'));
+            return;
+        }
+
+        await Admin.findByIdAndDelete(getAdminParamsID);
+        res.clearCookie('access_token');
+
+        res.status(200).json('Account has been deleted!');
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const allAdmin = async (req, res, next) => {
+    
+    try {
+        const excludePassword = {password : 0};
+
+        const getAdmin = await Admin.find({}, {excludePassword});
+
+        // .sort({createdAt : -1});
+        
+        res.status(200).json(getAdmin);
+
+    } catch (error) {
+        next(error)
+    }
+}
+
 // Admin login route
 export const AdminLogin = async (req, res, next) => {
     const { email, password } = req.body;
