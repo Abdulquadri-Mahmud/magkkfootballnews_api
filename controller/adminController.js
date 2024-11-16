@@ -6,12 +6,9 @@ import { errorHandler } from '../utils/errorHandler.js';
 import Admin from '../model/adminModel.js';
 
 export const adminSignup = async (req, res, next) => {
-    const {username, email, password} = req.body;
+    const { username, email, password } = req.body;
 
     try {
-        if (password.length >= 7) {
-            return next(errorHandler)
-        }
         const findAdmin = await Admin.findOne({ email });
 
         if (findAdmin) {
