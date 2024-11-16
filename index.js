@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 
 // routes
 import userAuthentications from './routes/userRoutes.js';
-import adminAuthentications from './routes/adminRoutes.js';
+// import adminAuthentications from './routes/adminRoutes.js';
 
 dotenv.config();
 
