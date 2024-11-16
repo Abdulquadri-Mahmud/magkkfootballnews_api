@@ -9,12 +9,22 @@ export const signup = async (req, res, next) => {
     const {username, phone, email, password, avatar} = req.body;
 
     try {
+        const validUsername = await User.findOne({username});
+
         const validEmail = await User.findOne({email});
 
+        const validPhone = await User.findOne({phone});
+
+        if (validUsername) {
+            return next(errorHandler(404, 'Username has been used by another user!'))
+        }
         if (validEmail) {
             return next(errorHandler(404, 'Email has been used by another user!'))
         }
-        
+        if (validPhone) {
+            return next(errorHandler(404, 'Phone number has been used by another user!'))
+        }
+
         if (password.length <= 7) {
             return next(errorHandler(400, 'Please kindly choose a strong password! max(8)'));
         }
