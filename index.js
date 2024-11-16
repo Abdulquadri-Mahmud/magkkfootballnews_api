@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
+// routes
+import userAuthentications from './routes/userRoutes.js';
+
 dotenv.config();
 
 const app = express();
@@ -11,7 +14,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-
 
 mongoose.connect(process.env.db).then((response) => {
     console.log('Database Connected!');
@@ -25,6 +27,8 @@ mongoose.connect(process.env.db).then((response) => {
 app.get("/", (req, res) => {
     res.send('Heloo World!');
 });
+
+app.use('/api/user/auth', userAuthentications);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
