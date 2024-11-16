@@ -22,7 +22,7 @@ mongoose.connect(process.env.db).then((response) => {
     console.log(error);
 });
 
-app.get((req, res) => {
+app.get("/", (req, res) => {
     res.send('Heloo World!');
 });
 
