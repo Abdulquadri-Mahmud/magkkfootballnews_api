@@ -1,6 +1,6 @@
 import express from 'express';
 import { AdminLogin, adminSignup, forgotPassword, resetPassword, 
-} from '../controller/adminController';
+} from '../controller/adminController.js';
 
 const app = express();
 
