@@ -1,5 +1,7 @@
 import express  from 'express';
-import { signin, signOut, signup } from '../controller/userController.js';
+import { allUsers, deleteAccount, signin, signOut, signup,
+    updateUser, userForgotPassword, userResetPassword 
+} from '../controller/userController.js';
 
 const app = express();
 
