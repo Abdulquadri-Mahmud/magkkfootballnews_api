@@ -1,6 +1,5 @@
 import express from 'express';
-import { AdminLogin, adminSignup, 
-    forgotPassword, resetPassword 
+import { AdminLogin, adminSignup, forgotPassword, resetPassword, 
 } from '../controller/adminController';
 
 const app = express();
