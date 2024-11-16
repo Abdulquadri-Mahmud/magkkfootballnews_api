@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import User from '../model/userModels.js';
-import { errorHandler } from '../utils/utils.js';
+import { errorHandler } from '../utils/errorHandler.js';
 
 export const signup = async (req, res, next) => {
     const {username, phone, email, password, avatar} = req.body;
