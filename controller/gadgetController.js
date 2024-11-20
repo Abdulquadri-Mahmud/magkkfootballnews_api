@@ -1,11 +1,11 @@
-import Betslips from "../model/newsModel";
+import Gadgets from "../model/gadgetModel.js";
 
-export const createNews = async (req, res, next) => {
+export const createGadget = async (req, res, next) => {
       const { title,category, date,
           image, description } = req.body;
   
       try {
-          const News = new Betslips({
+          const News = new Gadgets({
               title, category, date, image,
               description
           });
