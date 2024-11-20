@@ -22,7 +22,7 @@ export const createGadget = async (req, res, next) => {
       }
   }
 
-  export const allGadgets = async (req, res, next) => {
+  export const allProducts = async (req, res, next) => {
     try {
         const allGadgets = await Gadgets.find({}).sort({createdAt: - 1});
 
