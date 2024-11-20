@@ -1,12 +1,12 @@
 import Gadgets from "../model/gadgetModel.js";
 
 export const createGadget = async (req, res, next) => {
-      const { title,category, date,
+      const { name, price, category, date,
           image, description } = req.body;
   
       try {
           const News = new Gadgets({
-              title, category, date, image,
+              name, price, category, date, image,
               description
           });
   

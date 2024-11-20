@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 // routes
 import userAuthentications from './routes/userRoutes.js';
 import adminAuth from './routes/adminRoutes.js';
+import gadget from './routes/gadgetRoutes.js';
+import news from './routes/newsRoutes.js';
 
 dotenv.config();
 
@@ -31,7 +33,8 @@ app.get("/", (req, res) => {
 
 app.use('/api/user/auth', userAuthentications);
 app.use('/api/admin/auth', adminAuth);
-// app.use('/api/admin/auth', adminAuthentications);
+app.use('/api/gadget', gadget);
+app.use('/api/news', news);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

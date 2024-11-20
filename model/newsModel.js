@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
 var newsSchema = new mongoose.Schema({
-      name: {
-            type: String,
-            required: true
-      },
-      category: {
+      title: {
             type: String,
             required: true
       },
