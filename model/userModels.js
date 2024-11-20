@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 
 var userSchema = new mongoose.Schema({
+    firstname : {
+        type: String,
+        required: true,
+    },
+    lastname : {
+        type: String,
+        required: true,
+    },
     username : {
         type: String,
         required: true,
@@ -10,6 +18,10 @@ var userSchema = new mongoose.Schema({
         type: Number,
         required: true,
         unique: true
+    },
+    address : {
+        type: String,
+        required: true,
     },
     email : {
         unique: true,

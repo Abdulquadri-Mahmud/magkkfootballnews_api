@@ -6,7 +6,7 @@ import User from '../model/userModels.js';
 import { errorHandler } from '../utils/errorHandler.js';
 
 export const signup = async (req, res, next) => {
-    const {username, phone, email, password, avatar} = req.body;
+    const {firstname,lastname, address,username, phone, email, password, avatar} = req.body;
 
     try {
         const validUsername = await User.findOne({username});
@@ -14,7 +14,7 @@ export const signup = async (req, res, next) => {
         const validEmail = await User.findOne({email});
 
         const validPhone = await User.findOne({phone});
-
+        
         if (validUsername) {
             return next(errorHandler(404, 'Username has been used by another user!'))
         }
@@ -31,7 +31,7 @@ export const signup = async (req, res, next) => {
 
         const hashedPassword = bcryptjs.hashSync(password, 10);
 
-        const newUser = new User({username, phone, email, password: hashedPassword, avatar});
+        const newUser = new User({firstname,lastname, address, username, phone, email, password: hashedPassword, avatar});
 
         await newUser.save();
 
