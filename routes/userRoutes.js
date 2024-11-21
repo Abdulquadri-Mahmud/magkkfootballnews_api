@@ -1,5 +1,6 @@
 import express  from 'express';
 import { allUsers, deleteAccount, signin, signOut, signup,
+    singleUser,
     updateUser, userForgotPassword, userResetPassword 
 } from '../controller/userController.js';
 
@@ -11,6 +12,7 @@ app.get('/signout', signOut);
 app.patch('/update_user/:id', updateUser);
 app.delete('/delete_user/:id', deleteAccount);
 app.get('/all-user', allUsers);
+app.get('/single_user/:id', singleUser);
 app.post('/forgot-password', userForgotPassword);
 app.post('/reset-password/:token', userResetPassword);
 

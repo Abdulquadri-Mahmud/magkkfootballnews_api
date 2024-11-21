@@ -158,6 +158,25 @@ export const allUsers = async (req, res, next) => {
     }
 }
 
+export const singleUser = async (req, res, next) => {
+    const id = req.params.id;
+
+    try {
+
+        const getUsers = await User.findById(id);
+
+        if (!getUsers) {
+            next(errorHandler(404, 'User not found!'));
+            return;
+        }
+        
+        res.status(200).json(getUsers);
+
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const userForgotPassword = async (req, res, next) => {
     const { email } = req.body;
 
