@@ -2,23 +2,19 @@ import mongoose from "mongoose";
 import Betslip from "../model/betslipModel.js";
 
 export const createBetslip = async (req, res, next) => {
-    const { betslipCode, category, date} = req.body;
+    const {betslipCode, category, date} = req.body;
 
     try {
-        const Betslip = new Betslip({
+        const betslip = new Betslip({
             betslipCode, category, date
         });
 
-        await Betslip.save();
+        await betslip.save();
 
-        res.status(201).json({
-            message: 'Betslip create successfully!',
-            Betslip
-        });
+        res.status(201).json('Betslip create successfully!');
 
     } catch (error) {
         next(error);
-        console.log(error);
     }
 }
 
