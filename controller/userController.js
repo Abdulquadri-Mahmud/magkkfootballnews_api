@@ -6,7 +6,7 @@ import User from '../model/userModels.js';
 import { errorHandler } from '../utils/errorHandler.js';
 
 export const signup = async (req, res, next) => {
-    const {firstname,lastname, address,username, phone, email, password, avatar} = req.body;
+    const {firstname,lastname, address, city, state,username, phone, email, password, avatar} = req.body;
 
     try {
         const validUsername = await User.findOne({username});
@@ -31,7 +31,7 @@ export const signup = async (req, res, next) => {
 
         const hashedPassword = bcryptjs.hashSync(password, 10);
 
-        const newUser = new User({firstname,lastname, address, username, phone, email, password: hashedPassword, avatar});
+        const newUser = new User({firstname,lastname, address, city, state, username, phone, email, password: hashedPassword, avatar});
 
         await newUser.save();
 
@@ -85,7 +85,7 @@ export const signOut = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
     const userID = req.params.id;
 
-    const { username, phone, email, password, avatar} = req.body;
+    const { username, city, state, phone, email, password, avatar} = req.body;
 
     try {
         const findUserId = await User.findById(userID);
@@ -104,7 +104,7 @@ export const updateUser = async (req, res, next) => {
 
         const updateUser = await User.findByIdAndUpdate(userID, {
             $set: {
-                username, phone, email, userPassword, avatar
+                username, phone, email,  city, state, userPassword, avatar
             }
         }, {new : true});
 

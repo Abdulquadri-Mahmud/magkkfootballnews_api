@@ -20,9 +20,9 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://magkfootball.vercel.app");
+    // res.header("Access-Control-Allow-Origin", "https://magkfootball.vercel.app");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    // res.header("Access-Control-Allow-Origin", "http://localhost:5175");
+    res.header("Access-Control-Allow-Origin", "http://localhost:5175");
     next();
 });
 
