@@ -3,28 +3,36 @@ import { errorHandler } from "../utils/errorHandler.js";
 import News from "../model/newsModel.js";
 
 export const createNews = async (req, res, next) => {
-      const { title, date,
-          source, description } = req.body;
+    const { title, date, source, description } = req.body;
   
-      try {
-          const addNews = new News({
-            title, source, date,
-            description
-          });
+    // Validate incoming data
+    if (!title || !date || !source || !description) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
   
-          await addNews.save();
+    try {
+      // Create a new News object
+      const addNews = new News({
+        title, 
+        source, 
+        date, 
+        description
+      });
   
-          res.status(201).json({
-              message: 'News create successfully!',
-              addNews
-          });
+      // Save the new News object to the database
+      await addNews.save();
   
-      } catch (error) {
-          next(error);
-          console.log(error);
-          
-      }
-  }
+      // Return success response
+      res.status(201).json({
+        message: 'News created successfully!',
+        news: addNews // It's a good idea to rename this as 'news' instead of 'addNews' for clarity
+      });
+      
+    } catch (error) {
+      // Pass the error to the error-handling middleware
+      next(error);
+    }
+};
 
   export const allNews = async (req, res, next) => {
     try {
