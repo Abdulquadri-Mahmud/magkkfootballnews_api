@@ -10,6 +10,7 @@ import adminAuth from './routes/adminRoutes.js';
 import gadget from './routes/gadgetRoutes.js';
 import news from './routes/newsRoutes.js';
 import betslip from './routes/betslipRoute.js';
+import orderRoutes from './routes/orderRoutes.js';
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use('/api/admin/auth', adminAuth);
 app.use('/api/gadget', gadget);
 app.use('/api/news', news);
 app.use('/api/betslip', betslip);
+app.use('/api/order', orderRoutes);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
