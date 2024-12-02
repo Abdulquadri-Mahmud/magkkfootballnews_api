@@ -7,28 +7,30 @@ export const createNews = async (req, res, next) => {
           source, description } = req.body;
   
       try {
-          const News = new News({
+          const addNews = new News({
             title, source, date,
             description
           });
   
-          await News.save();
+          await addNews.save();
   
           res.status(201).json({
               message: 'News create successfully!',
-              News
+              addNews
           });
   
       } catch (error) {
           next(error);
+          console.log(error);
+          
       }
   }
 
   export const allNews = async (req, res, next) => {
     try {
-        const allNews = await News.find({}).sort({createdAt: - 1});
+        const News = await News.find({}).sort({createdAt: - 1});
 
-        res.status(200).json(allNews);
+        res.status(200).json(News);
 
     } catch (error) {
         next(error)
