@@ -1,5 +1,6 @@
 import Gadgets from "../model/gadgetModel.js";
 import mongoose from "mongoose";
+import { errorHandler } from "../utils/errorHandler.js";
 
 export const createGadget = async (req, res, next) => {
       const { name, price, category, date,
