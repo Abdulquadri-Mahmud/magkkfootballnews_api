@@ -5,7 +5,7 @@ import { allProducts, createGadget, deleteProduct,
 
 const app = express();
 
-app.post('/create-gadget', createGadget)
+app.post('/create_product', createGadget)
 app.get('/all_products', allProducts);
 app.get('/single_products/:id', singleProducts);
 app.patch('/update_products/:id', updateProduct);
