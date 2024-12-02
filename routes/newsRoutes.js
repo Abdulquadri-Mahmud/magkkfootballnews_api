@@ -5,11 +5,11 @@ import { allNews, createNews, deleteNews,
 
 const app = express();
 
-app.post('/create_product', createNews)
-app.get('/all_products', allNews);
-app.get('/single_products/:id', singleNews);
-app.patch('/update_products/:id', updateNews);
-app.delete('/delete_products/:id', deleteNews );
-app.get('/search_products/', searchNews);
+app.post('/create_news', createNews)
+app.get('/all_news', allNews);
+app.get('/single_news/:id', singleNews);
+app.patch('/update_news/:id', updateNews);
+app.delete('/delete_news/:id', deleteNews );
+app.get('/search_news/', searchNews);
 
 export default app;
