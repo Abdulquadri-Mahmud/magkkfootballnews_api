@@ -85,7 +85,7 @@ const buyerEmailOptions = {
           <p style="margin-top: 20px;">If you have any questions about your order, feel free to contact us at <a href="mailto:support@example.com" style="color: #4CAF50;">support@example.com</a>.</p>
         </div>
         <footer style="background-color: #f4f4f4; color: #666; text-align: center; padding: 10px;">
-          <p style="margin: 0;">&copy; 2024 Your Company Name. All Rights Reserved.</p>
+          <p style="margin: 0;">&copy; 2024 MAGKKFOOTBALLTALK. All Rights Reserved.</p>
         </footer>
       </div>
     </div>
@@ -133,7 +133,7 @@ const buyerEmailOptions = {
               <p style="font-size: 16px;"><strong>Grand Total:</strong> ${total.toLocaleString()}</p>
             </div>
             <footer style="background-color: #f4f4f4; color: #666; text-align: center; padding: 10px;">
-              <p style="margin: 0;">&copy; 2024 Your Company Name. All Rights Reserved.</p>
+              <p style="margin: 0;">&copy; 2024 2024 MAGKKFOOTBALLTALK. All Rights Reserved.</p>
             </footer>
           </div>
         </div>
