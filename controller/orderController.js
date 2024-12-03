@@ -1,9 +1,6 @@
 import Order from "../model/orderModel.js";
 import nodemailer from 'nodemailer';// Ensure you have your Order model imported
 
-import Order from "../model/orderModel.js";
-import nodemailer from "nodemailer";
-
 export const createOrder = async (req, res, next) => {
   const { 
     firstname,
