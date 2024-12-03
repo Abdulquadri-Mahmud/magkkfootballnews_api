@@ -1,6 +1,9 @@
 import Order from "../model/orderModel.js";
 import nodemailer from 'nodemailer';// Ensure you have your Order model imported
 
+import Order from "../model/orderModel.js";
+import nodemailer from "nodemailer";
+
 export const createOrder = async (req, res, next) => {
   const { 
     firstname,
@@ -26,10 +29,10 @@ export const createOrder = async (req, res, next) => {
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({
-      service: 'gmail', // Or use a custom SMTP server
+      service: "gmail", // Or use a custom SMTP server
       auth: {
-        user: process.env.EMAIL, // Replace with your email
-        pass: process.env.EMAIL_PASSWORD, // Replace with your email password or app password
+        user: process.env.EMAIL, // Sender's email address (Owner's email)
+        pass: process.env.EMAIL_PASSWORD, // Email password or app password
       },
     });
 
@@ -41,15 +44,15 @@ export const createOrder = async (req, res, next) => {
         <td>${item.productPrice}</td>
         <td>${item.quantity * item.productPrice}</td>
       </tr>
-    `).join('');
+    `).join("");
 
     const total = items.reduce((sum, item) => sum + item.quantity * item.productPrice, 0);
 
-    // Email content
-    const mailOptions = {
+    // Email content for the buyer
+    const buyerEmailOptions = {
       from: process.env.EMAIL, // Sender's email address
-      to: email, // Recipient's email address
-      subject: 'Order Confirmation',
+      to: email, // Buyer's email address
+      subject: "Order Confirmation",
       html: `
         <h1>Order Confirmation</h1>
         <p>Dear ${firstname} ${lastname},</p>
@@ -73,19 +76,49 @@ export const createOrder = async (req, res, next) => {
       `,
     };
 
-    // Send the email
-    await transporter.sendMail(mailOptions);
+    // Email content for the owner
+    const ownerEmailOptions = {
+      from: process.env.EMAIL, // Sender's email address
+      to: process.env.OWNER_EMAIL, // Owner's email address
+      subject: "New Order Received",
+      html: `
+        <h1>New Order Received</h1>
+        <p>Dear Admin,</p>
+        <p>A new order has been placed. Here are the details:</p>
+        <p><strong>Customer Name:</strong> ${firstname} ${lastname}</p>
+        <p><strong>Customer Phone:</strong> ${phone}</p>
+        <p><strong>Customer Email:</strong> ${email}</p>
+        <p><strong>Address:</strong> ${address}</p>
+        <table border="1" style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsHtml}
+          </tbody>
+        </table>
+        <p><strong>Grand Total:</strong> ${total}</p>
+      `,
+    };
+
+    // Send emails
+    await transporter.sendMail(buyerEmailOptions);
+    await transporter.sendMail(ownerEmailOptions);
 
     // Respond to the client
     res.status(201).json({ 
-      message: 'Order created successfully and email sent', 
-      order: newOrder 
+      message: "Order created successfully and emails sent", 
+      order: newOrder,
     });
-
   } catch (err) {
     res.status(500).json({ 
-      error: 'Failed to create order or send email', 
-      details: err 
+      error: "Failed to create order or send email", 
+      details: err,
     });
   }
 };
