@@ -32,7 +32,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-
 mongoose.connect(process.env.db).then((response) => {
     console.log('Database Connected!');
     app.listen(process.env.PORT, () => {
