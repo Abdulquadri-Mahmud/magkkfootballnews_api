@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema({
     type: String, required: true 
   },
   email: {
-    type: String, required: true
+    type: String, required: true,unique: false,
   },
   date: { 
     type: Date, default: Date.now()
