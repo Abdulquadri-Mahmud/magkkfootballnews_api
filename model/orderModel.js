@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema({
     type: String, required: true 
   },
   address: {
-    type: String, required: true
+    type: String, required: true 
   },
   email: {
     type: String, required: true
@@ -35,7 +35,15 @@ const orderSchema = new mongoose.Schema({
   // status: { 
   //   type: String, required: true 
   // },
-  items: []
+  items: [
+    {
+      productID: { type: String, required: true },
+      productName: { type: String, required: true },
+      productImage: [],
+      quantity: { type: Number, required: true },
+      productPrice: { type: Number, required: true },
+    },
+  ],
 }, {timestamps: true});
 
 const Order = mongoose.model('Order', orderSchema);
