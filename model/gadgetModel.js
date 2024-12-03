@@ -38,7 +38,7 @@ var gadgetsSchema = new mongoose.Schema({
             type: String,
             unique: true,
             default : generateProductId
-        },
+      },
 }, {timestamps : true});
 
 const Gadgets = mongoose.model('gadget', gadgetsSchema);

@@ -1,31 +1,47 @@
 import mongoose from "mongoose";
 
+const generateOrderId = () => {
+  const number = 100000
+  return Math.floor(1000 * Math.random() * number).toString().slice(0, 5);
+}
+
 const orderSchema = new mongoose.Schema({
   orderId: { 
-    type: String, required: true, unique: true 
+    type: String,
+    unique: true,
+    default : generateProductId
   },
-  customerName: {
+  firstname: {
+    type: String, required: true 
+  },
+  lastname: {
     type: String, required: true 
   },
   phone: { 
+    type: Number, required: true 
+  },
+  address: {
     type: String, required: true 
+  },
+  email: {
+    type: String, required: true, unique: true
   },
   date: { 
     type: Date, default: Date.now()
   },
-  totalPayment: { 
-    type: Number, required: true 
-  },
+  // totalPayment: { 
+  //   type: Number, required: true 
+  // },
   // status: { 
   //   type: String, required: true 
   // },
   items: [
     {
-      productId: { type: String, required: true },
+      productID: { type: String, required: true },
       productName: { type: String, required: true },
+      productImage: [],
       quantity: { type: Number, required: true },
-      price: { type: Number, required: true },
-      totalPrice: { type: Number, required: true },
+      productPrice: { type: Number, required: true },
     },
   ],
 });

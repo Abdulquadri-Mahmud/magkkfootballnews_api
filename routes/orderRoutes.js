@@ -5,7 +5,7 @@ import { allOrders, createOrder, deleteOrder,
 
 const app = express();
 
-app.post('/orders', createOrder);
+app.post('/create_orders', createOrder);
 app.get('/orders/:id', OrderID);
 app.patch('/orders/:id', updateOrder);
 app.delete('/orders/:id', deleteOrder);
