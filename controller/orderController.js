@@ -46,62 +46,99 @@ export const createOrder = async (req, res, next) => {
     const total = items.reduce((sum, item) => sum + item.quantity * item.productPrice, 0);
 
     // Email content for the buyer
-    const buyerEmailOptions = {
-      from: process.env.EMAIL, // Sender's email address
-      to: email, // Buyer's email address
-      subject: "Order Confirmation",
-      html: `
-        <h1>Order Confirmation</h1>
-        <p>Dear ${firstname} ${lastname},</p>
-        <p>Thank you for your order! Here are the details:</p>
-        <table border="1" style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemsHtml}
-          </tbody>
-        </table>
-        <p><strong>Grand Total:</strong> ${total}</p>
-        <p><strong>Address:</strong> ${address}</p>
-        <p>We hope to serve you again soon!</p>
-      `,
-    };
+    // Email content for the buyer
+const buyerEmailOptions = {
+  from: process.env.EMAIL, // Sender's email address
+  to: email, // Buyer's email address
+  subject: "Order Confirmation",
+  html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <header style="background-color: #4CAF50; color: #fff; padding: 20px; text-align: center;">
+          <h1 style="margin: 0; font-size: 24px;">Thank You for Your Order!</h1>
+        </header>
+        <div style="padding: 20px;">
+          <p>Dear <strong>${firstname} ${lastname}</strong>,</p>
+          <p>We are thrilled to confirm your order. Below are the details:</p>
+          <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <thead>
+              <tr>
+                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Product Name</th>
+                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Quantity</th>
+                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Price</th>
+                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${items.map((item) => `
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${item.productName}</td>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${item.quantity}</td>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${item.productPrice.toLocaleString()}</td>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${(item.quantity * item.productPrice).toLocaleString()}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+          <p style="font-size: 16px;"><strong>Grand Total:</strong> ${total.toLocaleString()}</p>
+          <p style="font-size: 16px;"><strong>Delivery Address:</strong> ${address}</p>
+          <p style="margin-top: 20px;">If you have any questions about your order, feel free to contact us at <a href="mailto:support@example.com" style="color: #4CAF50;">support@example.com</a>.</p>
+        </div>
+        <footer style="background-color: #f4f4f4; color: #666; text-align: center; padding: 10px;">
+          <p style="margin: 0;">&copy; 2024 Your Company Name. All Rights Reserved.</p>
+        </footer>
+      </div>
+    </div>
+  `,
+};
 
-    // Email content for the owner
+
     const ownerEmailOptions = {
-      from: process.env.EMAIL, // Sender's email address
-      to: process.env.OWNER_EMAIL, // Owner's email address
+      from: process.env.EMAIL,
+      to: process.env.OWNER_EMAIL,
       subject: "New Order Received",
       html: `
-        <h1>New Order Received</h1>
-        <p>Dear Admin,</p>
-        <p>A new order has been placed. Here are the details:</p>
-        <p><strong>Customer Name:</strong> ${firstname} ${lastname}</p>
-        <p><strong>Customer Phone:</strong> ${phone}</p>
-        <p><strong>Customer Email:</strong> ${email}</p>
-        <p><strong>Address:</strong> ${address}</p>
-        <table border="1" style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemsHtml}
-          </tbody>
-        </table>
-        <p><strong>Grand Total:</strong> ${total}</p>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <header style="background-color: #2196F3; color: #fff; padding: 20px; text-align: center;">
+              <h1 style="margin: 0; font-size: 24px;">New Order Notification</h1>
+            </header>
+            <div style="padding: 20px;">
+              <p>Dear Admin,</p>
+              <p>A new order has been placed. Below are the details:</p>
+              <p><strong>Customer Name:</strong> ${firstname} ${lastname}</p>
+              <p><strong>Customer Phone:</strong> ${phone}</p>
+              <p><strong>Customer Email:</strong> ${email}</p>
+              <p><strong>Delivery Address:</strong> ${address}</p>
+              <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                  <tr>
+                    <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Product Name</th>
+                    <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Quantity</th>
+                    <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Price</th>
+                    <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${items.map((item) => `
+                    <tr>
+                      <td style="padding: 8px; border: 1px solid #ddd;">${item.productName}</td>
+                      <td style="padding: 8px; border: 1px solid #ddd;">${item.quantity}</td>
+                      <td style="padding: 8px; border: 1px solid #ddd;">${item.productPrice.toLocaleString()}</td>
+                      <td style="padding: 8px; border: 1px solid #ddd;">${(item.quantity * item.productPrice).toLocaleString()}</td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+              <p style="font-size: 16px;"><strong>Grand Total:</strong> ${total.toLocaleString()}</p>
+            </div>
+            <footer style="background-color: #f4f4f4; color: #666; text-align: center; padding: 10px;">
+              <p style="margin: 0;">&copy; 2024 Your Company Name. All Rights Reserved.</p>
+            </footer>
+          </div>
+        </div>
       `,
-    };
+    };    
 
     // Send emails
     await transporter.sendMail(buyerEmailOptions);
