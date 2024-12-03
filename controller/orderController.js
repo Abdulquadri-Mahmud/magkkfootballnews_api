@@ -54,7 +54,7 @@ const buyerEmailOptions = {
   html: `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
       <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <header style="background-color: #4CAF50; color: #fff; padding: 20px; text-align: center;">
+        <header style="background-color: rgb(30 58 138); color: #fff; padding: 20px; text-align: center;">
           <h1 style="margin: 0; font-size: 24px;">Thank You for Your Order!</h1>
         </header>
         <div style="padding: 20px;">
@@ -100,7 +100,7 @@ const buyerEmailOptions = {
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-            <header style="background-color: #2196F3; color: #fff; padding: 20px; text-align: center;">
+            <header style="background-color: rgb(30 58 138); color: #fff; padding: 20px; text-align: center;">
               <h1 style="margin: 0; font-size: 24px;">New Order Notification</h1>
             </header>
             <div style="padding: 20px;">
