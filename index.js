@@ -20,17 +20,37 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+const allowedOrigins = [
+    'https://magkfootball.vercel.app', // Your main app's domain
+    'http://localhost:5173', // Your dashboard's domain
+  ];
+  
+// Configure CORS middleware
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // Allow access
+    } else {
+        callback(new Error('Not allowed by CORS')); // Deny access
+    }
+},
+    credentials: true, // Allow cookies and credentials if needed
+};
+  
+// Apply CORS middleware
+app.use(cors(corsOptions));
+  
 // app.use(function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "https://magkfootball.vercel.app");
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 // });
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 mongoose.connect(process.env.db).then((response) => {
     console.log('Database Connected!');
