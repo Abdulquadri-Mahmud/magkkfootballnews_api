@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+const generateProductId = () => {
+      const number = 100000
+      return Math.floor(1000 * Math.random() * number).toString().slice(0, 5);
+}
+
 var gadgetsSchema = new mongoose.Schema({
       name: {
             type: String,
@@ -29,6 +34,11 @@ var gadgetsSchema = new mongoose.Schema({
             type: String,
             required: true
       },
+      productId : {
+            type: String,
+            unique: true,
+            default : generateProductId
+        },
 }, {timestamps : true});
 
 const Gadgets = mongoose.model('gadget', gadgetsSchema);

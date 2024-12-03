@@ -9,6 +9,6 @@ app.post('/orders', createOrder);
 app.get('/orders/:id', OrderID);
 app.patch('/orders/:id', updateOrder);
 app.delete('/orders/:id', deleteOrder);
-app.all('/orders', allOrders);
+app.all('/all_orders', allOrders);
 
 export default app;
