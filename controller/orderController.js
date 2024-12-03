@@ -2,27 +2,21 @@ import Order from "../model/orderModel.js";
 
 export const createOrder = async (req, res, next) => {
     const { 
-      orderId,
         firstname,
         lastname,
         phone,
         email,
         address,
-        // totalPayment,
-        // status,
         items,
      } = req.body;
      
     try {
     const newOrder = new Order({
-        orderId,
         firstname,
         lastname,
         phone,
         email,
         address,
-        // totalPayment,
-        // status,
         items,
     });
         await newOrder.save();

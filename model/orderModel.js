@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema({
   orderId: { 
     type: String,
     unique: true,
-    default : generateProductId
+    default : generateOrderId
   },
   firstname: {
     type: String, required: true 
@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema({
     type: String, required: true 
   },
   phone: { 
-    type: Number, required: true 
+    type: String, required: true 
   },
   address: {
     type: String, required: true 
@@ -44,7 +44,7 @@ const orderSchema = new mongoose.Schema({
       productPrice: { type: Number, required: true },
     },
   ],
-});
+}, {timestamps: true});
 
 const Order = mongoose.model('Order', orderSchema);
 
