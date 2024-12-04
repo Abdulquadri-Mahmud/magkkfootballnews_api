@@ -23,7 +23,7 @@ app.use(cookieParser());
 const allowedOrigins = [
     'https://magkfootball.vercel.app'
     , // Your main app's domain
-    'http://localhost:5173', // Your dashboard's domain
+    'https://magkk-football-talk-dashboard.vercel.app', // Your dashboard's domain
     // 'http://localhost:5174', 
     // Your dashboard's domain
   ];
