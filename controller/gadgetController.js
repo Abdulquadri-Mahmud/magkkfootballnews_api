@@ -26,7 +26,7 @@ export const createGadget = async (req, res, next) => {
 
   export const allProducts = async (req, res, next) => {
     try {
-        const allGadgets = await Gadgets.find({}).sort({createdAt: - 1});
+        const allGadgets = await Gadgets.find({}).sort({createdAt: 1});
 
         res.status(200).json(allGadgets);
 
