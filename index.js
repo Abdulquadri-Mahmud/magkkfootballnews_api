@@ -35,7 +35,7 @@ const corsOptions = {
         callback(new Error('Not allowed by CORS')); // Deny access
     }
 },
-    credentials: true, // Allow cookies and credentials if needed
+    // credentials: true, // Allow cookies and credentials if needed
 };
   
 // Apply CORS middleware
