@@ -55,7 +55,7 @@ export const createOrder = async (req, res, next) => {
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
             <header style="background-color: rgb(30 58 138); color: #fff; padding: 20px; text-align: center;">
-              <img src="https://your-hosted-logo-url/logo.jpg" alt="Magkk Football Talk Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
+              <img src="https://res.cloudinary.com/dypn7gna0/image/upload/v1733313996/logo_j1064i.png" alt="Magkk Football Talk Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
               <h1 style="margin: 0; font-size: 24px;">Thank You for Your Order!</h1>
             </header>
             <div style="padding: 20px;">
@@ -102,7 +102,7 @@ export const createOrder = async (req, res, next) => {
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
             <header style="background-color: rgb(30 58 138); color: #fff; padding: 20px; text-align: center;">
-              <img src="https://your-hosted-logo-url/logo.jpg" alt="Magkk Football Talk Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
+              <img src="https://res.cloudinary.com/dypn7gna0/image/upload/v1733313996/logo_j1064i.png" alt="Magkk Football Talk Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
               <h1 style="margin: 0; font-size: 24px;">New Order Notification</h1>
             </header>
             <div style="padding: 20px;">
