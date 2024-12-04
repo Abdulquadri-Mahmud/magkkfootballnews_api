@@ -21,12 +21,10 @@ app.use(cors());
 app.use(cookieParser());
 
 const allowedOrigins = [
-    'https://magkfootball.vercel.app'
-    , // Your main app's domain
-    'https://magkk-football-talk-dashboard.vercel.app', // Your dashboard's domain
+    'https://magkfootball.vercel.app',
+    'https://magkk-football-talk-dashboard.vercel.app',
     // 'http://localhost:5174', 
-    // Your dashboard's domain
-  ];
+];
   
 // Configure CORS middleware
 const corsOptions = {
