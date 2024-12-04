@@ -1,15 +1,11 @@
 import Order from "../model/orderModel.js";
 import nodemailer from 'nodemailer';// Ensure you have your Order model imported
 
+import fs from "fs";
+import path from "path";
+
 export const createOrder = async (req, res, next) => {
-  const { 
-    firstname,
-    lastname,
-    phone,
-    email,
-    address,
-    items,
-  } = req.body;
+  const { firstname, lastname, phone, email, address, items } = req.body;
 
   try {
     // Create the order in the database
@@ -24,141 +20,122 @@ export const createOrder = async (req, res, next) => {
 
     await newOrder.save();
 
+    // Load the logo and convert it to Base64
+    const logoPath = path.join(__dirname, "logo.jpg"); // Adjust the path if necessary
+    const logoBase64 = fs.readFileSync(logoPath, { encoding: "base64" });
+
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({
-      service: "gmail", // Or use a custom SMTP server
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL, // Sender's email address (Owner's email)
-        pass: process.env.EMAIL_PASSWORD, // Email password or app password
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
 
     // Generate the order items table for the email
-    const itemsHtml = items.map((item) => `
-      <tr>
-        <td>${item.productName}</td>
-        <td>${item.quantity}</td>
-        <td>${item.productPrice}</td>
-        <td>${item.quantity * item.productPrice}</td>
+    const itemsHtml = items
+      .map(
+        (item) => `
+      <tr style="text-align: center;">
+        <td style="padding: 8px;">${item.productName}</td>
+        <td style="padding: 8px;">${item.quantity}</td>
+        <td style="padding: 8px;">${Number(item.productPrice).toLocaleString()}</td>
+        <td style="padding: 8px;">${(item.quantity * item.productPrice).toLocaleString()}</td>
       </tr>
-    `).join("");
+    `
+      )
+      .join("");
 
     const total = items.reduce((sum, item) => sum + item.quantity * item.productPrice, 0);
 
     // Email content for the buyer
-    // Email content for the buyer
-const buyerEmailOptions = {
-  from: process.env.EMAIL, // Sender's email address
-  to: email, // Buyer's email address
-  subject: "Order Confirmation",
-  html: `
-    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <header style="background-color: rgb(30 58 138); color: #fff; padding: 20px; text-align: center;">
-          <img src="https://res.cloudinary.com/dypn7gna0/image/upload/v1733302422/xplbuyneujqysopef2i2.jpg" alt="Magkk Football Talk Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
-          <h1 style="margin: 0; font-size: 24px;">New Order Notification</h1>
-        </header>
-        <div style="padding: 20px;">
-          <p>Dear <strong>${firstname} ${lastname}</strong>,</p>
-          <p>We are thrilled to confirm your order. Below are the details:</p>
-          <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-            <thead>
+    const buyerEmailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Order Confirmation",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
+          <div style="text-align: center; display: flex; justify-content: center;">
+            <img src="https://res.cloudinary.com/dypn7gna0/image/upload/v1733313996/logo_j1064i.png" alt="Logo" style="width: 150px; margin-bottom: 20px;" />
+          </div>
+          <h1 style="text-align: center; color: #333;">Order Confirmation</h1>
+          <p>Dear ${firstname} ${lastname},</p>
+          <p>Thank you for your order. Here are the details:</p>
+          <table border="1" style="border-collapse: collapse; width: 100%; text-align: center; margin-top: 20px; margin-bottom: 20px;">
+            <thead style="background-color: #f4f4f4;">
               <tr>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Product Name</th>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Quantity</th>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Price</th>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Total</th>
+                <th style="padding: 10px;">Product Name</th>
+                <th style="padding: 10px;">Quantity</th>
+                <th style="padding: 10px;">Price</th>
+                <th style="padding: 10px;">Total</th>
               </tr>
             </thead>
-            <tbody>
-              ${items.map((item) => `
-                <tr>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${item.productName}</td>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${item.quantity}</td>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${item.productPrice.toLocaleString()}</td>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${(item.quantity * item.productPrice).toLocaleString()}</td>
-                </tr>
-              `).join("")}
-            </tbody>
+            <tbody>${itemsHtml}</tbody>
           </table>
-          <p style="font-size: 16px;"><strong>Grand Total:</strong> ${total.toLocaleString()}</p>
-          <p style="font-size: 16px;"><strong>Delivery Address:</strong> ${address}</p>
-          <p style="margin-top: 20px;">If you have any questions about your order, feel free to contact us at <a href="mailto:oloyerichieog@gmail.com" style="color: #4CAF50;">support@example.com</a>.</p>
-        </div>
-        <footer style="background-color: #f4f4f4; color: #666; text-align: center; padding: 10px;">
-          <p style="margin: 0;">&copy; 2024 MAGKKFOOTBALLTALK. All Rights Reserved.</p>
-        </footer>
-      </div>
-    </div>
-  `,
-};
-
-
-const ownerEmailOptions = {
-  from: process.env.EMAIL,
-  to: process.env.OWNER_EMAIL,
-  subject: "New Order Received",
-  html: `
-    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <header style="background-color: rgb(30 58 138); color: #fff; padding: 20px; text-align: center;">
-          <img src="https://res.cloudinary.com/dypn7gna0/image/upload/v1733302422/xplbuyneujqysopef2i2.jpg" alt="Magkk Football Talk Logo" style="width: 120px; height: auto; margin-bottom: 10px;">
-          <h1 style="margin: 0; font-size: 24px;">New Order Notification</h1>
-        </header>
-        <div style="padding: 20px;">
-          <p>Dear Admin,</p>
-          <p>A new order has been placed. Below are the details:</p>
-          <p><strong>Customer Name:</strong> ${firstname} ${lastname}</p>
-          <p><strong>Customer Phone:</strong> ${phone}</p>
-          <p><strong>Customer Email:</strong> ${email}</p>
+          <p><strong>Grand Total:</strong> ${total.toLocaleString()}</p>
           <p><strong>Delivery Address:</strong> ${address}</p>
-          <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-            <thead>
+          <p>If you have any questions, contact us at <a href="mailto:${process.env.EMAIL}" style="color: #1a73e8;">${process.env.EMAIL}</a>.</p>
+          <p style="text-align: center; color: #888; font-size: 12px; margin-top: 20px;">Thank you for choosing Magkk Football Talk!</p>
+        </div>
+      `,
+    };
+
+    // Email content for the admin/owner (similar structure)
+    const ownerEmailOptions = {
+      from: process.env.EMAIL,
+      to: process.env.OWNER_EMAIL,
+      subject: "New Order Received",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
+          <div style="text-align: center; display: flex; justify-content: center;">
+            <img src="https://res.cloudinary.com/dypn7gna0/image/upload/v1733313996/logo_j1064i.png" alt="Logo" style="width: 150px; margin-bottom: 20px;" />
+          </div>
+          <h1 style="text-align: center; color: #333;">New Order Notification</h1>
+          <p>Dear Admin,</p>
+          <p>A new order has been placed. Here are the details:</p>
+          <p><strong>Customer Name:</strong> ${firstname} ${lastname}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Address:</strong> ${address}</p>
+          <table border="1" style="border-collapse: collapse; width: 100%; text-align: center; margin-top: 20px; margin-bottom: 20px;">
+            <thead style="background-color: #f4f4f4;">
               <tr>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Product Name</th>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Quantity</th>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Price</th>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ddd; background-color: #f4f4f4;">Total</th>
+                <th style="padding: 10px;">Product Name</th>
+                <th style="padding: 10px;">Quantity</th>
+                <th style="padding: 10px;">Price</th>
+                <th style="padding: 10px;">Total</th>
               </tr>
             </thead>
-            <tbody>
-              ${items.map((item) => `
-                <tr>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${item.productName}</td>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${item.quantity}</td>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${item.productPrice.toLocaleString()}</td>
-                  <td style="padding: 8px; border: 1px solid #ddd;">${(item.quantity * item.productPrice).toLocaleString()}</td>
-                </tr>
-              `).join("")}
-            </tbody>
+            <tbody>${itemsHtml}</tbody>
           </table>
-          <p style="font-size: 16px;"><strong>Grand Total:</strong> ${total.toLocaleString()}</p>
+          <p><strong>Grand Total:</strong> ${total.toLocaleString()}</p>
         </div>
-        <footer style="background-color: #f4f4f4; color: #666; text-align: center; padding: 10px;">
-          <p style="margin: 0;">&copy; 2024 MAGKKFOOTBALLTALK. All Rights Reserved.</p>
-        </footer>
-      </div>
-    </div>
-  `,
-};
+      `,
+    };
 
+    // Send emails concurrently
+    const emailPromises = [
+      transporter.sendMail(buyerEmailOptions),
+      transporter.sendMail(ownerEmailOptions),
+    ];
 
-    // Send emails
-    await transporter.sendMail(buyerEmailOptions);
-    await transporter.sendMail(ownerEmailOptions);
+    await Promise.all(emailPromises);
 
     // Respond to the client
-    res.status(201).json({ 
-      message: "Order created successfully and emails sent", 
+    res.status(201).json({
+      message: "Order created successfully and emails sent",
       order: newOrder,
     });
   } catch (err) {
-    res.status(500).json({ 
-      error: "Failed to create order or send email", 
-      details: err,
+    console.error("Error creating order or sending email:", err);
+    res.status(500).json({
+      error: "Failed to create order or send email",
+      details: err.message,
     });
   }
 };
+
 
 
 export const OrderID = async (req, res, next) => {
