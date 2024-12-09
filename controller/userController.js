@@ -43,35 +43,45 @@ export const signup = async (req, res, next) => {
 }
 
 export const signin = async (req, res, next) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     try {
-        if (password.length <= 7) {
-            return next(errorHandler(400, 'Please kindly choose a strong password! max(8)'));
+        // Validate password length
+        if (password.length < 8) {
+            return next(errorHandler(400, 'Please choose a strong password with at least 8 characters!'));
         }
 
-        const verifyEmail = await User.findOne({email});
-
+        // Check if user exists
+        const verifyEmail = await User.findOne({ email });
         if (!verifyEmail) {
-            return next(errorHandler(404, 'User Not Found!'));
+            return next(errorHandler(404, 'User not found!'));
         }
 
+        // Check if password is valid
         const validPassword = bcryptjs.compareSync(password, verifyEmail.password);
-
         if (!validPassword) {
-            return next(errorHandler(404, 'Wrong Credentials!'));
+            return next(errorHandler(401, 'Wrong credentials!'));
         }
 
-        const webtoken = jwt.sign({id: verifyEmail._id}, process.env.JWT_SERVICES);
+        // Generate JWT
+        const webtoken = jwt.sign({ id: verifyEmail._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+        // Exclude password from user object
         const { password: pass, ...rest } = verifyEmail._doc;
 
-        res.cookie('access_token', webtoken, {httpOnly: true}).status(200).json(rest);
+        // Send response with cookie
+        res.cookie('access_token', webtoken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+                sameSite: 'strict', // SameSite policy
+            })
+            .status(200)
+            .json(rest);
 
     } catch (error) {
-        next(error);
+        next(error); // Pass errors to the error handler middleware
     }
-}
+};
 
 export const signOut = async (req, res, next) => {
     try {
