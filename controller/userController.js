@@ -69,7 +69,7 @@ export const signin = async (req, res, next) => {
 
         const {password: pass, ...rest} = validEmail._doc;
 
-        res.cookie('access_token', webtoken, { httpOnly: true, secure: true, domain: 'http://localhost:5173' }).status(200).json(rest);
+        res.cookie('access_token', webtoken, { httpOnly: true, secure: true, domain: 'http://localhost:5173/signin' }).status(200).json(rest);
     } catch (error) {
         next(error);
     }
