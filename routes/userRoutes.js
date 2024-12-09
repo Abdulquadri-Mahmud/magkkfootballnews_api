@@ -8,7 +8,7 @@ const app = express();
 
 app.post('/signup', signup);
 app.post('/signin', signin);
-app.get('/signout', signOut);
+app.post('/signout', signOut);
 app.patch('/update_user/:id', updateUser);
 app.delete('/delete_user/:id', deleteAccount);
 app.get('/all-user', allUsers);
