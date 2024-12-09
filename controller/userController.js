@@ -51,35 +51,27 @@ export const signin = async (req, res, next) => {
             return next(errorHandler(400, 'Please choose a strong password with at least 8 characters!'));
         }
 
-        // Check if user exists
-        const verifyEmail = await User.findOne({ email });
-        if (!verifyEmail) {
-            return next(errorHandler(404, 'User not found!'));
+        // check if email is valid...
+        const validEmail = await User.findOne({email});
+        // check is email is not valid
+        if (!validEmail) {
+            return next(errorHandler(404, 'User Not Found!'));
         }
 
-        // Check if password is valid
-        const validPassword = bcryptjs.compareSync(password, verifyEmail.password);
+        // check if password is valid
+        const validPassword = bcryptjs.compareSync(password, validEmail.password);
+        // check is password is not valid
         if (!validPassword) {
-            return next(errorHandler(401, 'Wrong credentials!'));
+            return next(errorHandler(404, 'Wrong Credentials!'));
         }
 
-        // Generate JWT
-        const webtoken = jwt.sign({ id: verifyEmail._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const webtoken = jwt.sign({id: validEmail._id}, process.env.JWT_SERVICES);
 
-        // Exclude password from user object
-        const { password: pass, ...rest } = verifyEmail._doc;
+        const {password: pass, ...rest} = validEmail._doc;
 
-        // Send response with cookie
-        res.cookie('access_token', webtoken, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-                sameSite: 'strict', // SameSite policy
-            })
-            .status(200)
-            .json(rest);
-
+        res.cookie('access_token', webtoken, {httpOnly : true}).status(200).json(rest);
     } catch (error) {
-        next(error); // Pass errors to the error handler middleware
+        next(error);
     }
 };
 
