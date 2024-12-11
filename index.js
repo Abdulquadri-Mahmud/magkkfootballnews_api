@@ -21,9 +21,9 @@ app.use(cors());
 app.use(cookieParser());
 
 const allowedOrigins = [
-    // 'https://www.footballbymagkk.com',
+    'https://www.footballbymagkk.com',
     'https://magkk-football-talk-dashboard.vercel.app',
-    'http://localhost:5173',
+    // 'http://localhost:5173',
 ];
 
 // 'http://localhost:5174', 
