@@ -9,9 +9,9 @@ const app = express();
 
 app.post('/signup', signup);
 app.post('/signin', signin);
-app.get('/signout',verifyToken, signOut);
-app.patch('/update_user/:id', verifyToken, updateUser);
-app.delete('/delete_user/:id', verifyToken, deleteAccount);
+app.get('/signout', signOut);
+app.patch('/update_user/:id', updateUser);
+app.delete('/delete_user/:id', deleteAccount);
 app.get('/all-user', allUsers);
 app.get('/single_user/:id', singleUser);
 app.post('/forgot-password', userForgotPassword);
