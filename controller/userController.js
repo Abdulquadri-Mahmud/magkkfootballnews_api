@@ -205,7 +205,7 @@ export const userForgotPassword = async (req, res, next) => {
                 pass: process.env.EMAIL_PASSWORD
             },
             dkim: {
-                domainName: 'http://localhost:5173',
+                domainName: 'https://www.footballbymagkk.com',
                 keySelector: 'default',
                 // privateKey: fs.readFileSync('path/to/your/privatekey.pem', 'utf8')
             }
