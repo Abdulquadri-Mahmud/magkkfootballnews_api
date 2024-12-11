@@ -236,11 +236,16 @@ export const userResetPassword = async (req, res, next) => {
     const { token } = req.params;
     const { password } = req.body;
 
+    // Validate inputs
+    if (!token || !password) {
+        return next(errorHandler(400, 'Token and password are required'));
+    }
+
     try {
-        // Find the user with the matching reset token and check if the token has not expired
+        // Find the user with the matching reset token and check expiry
         const user = await User.findOne({
             resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() }
+            resetPasswordExpires: { $gt: Date.now() },
         });
 
         if (!user) {
@@ -250,17 +255,17 @@ export const userResetPassword = async (req, res, next) => {
         // Hash the new password
         const hashedPassword = bcryptjs.hashSync(password, 10);
 
-        // Update the user's password and remove the reset token and expiry
+        // Update user's password and remove reset fields
         user.password = hashedPassword;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
 
         await user.save();
 
-        res.status(200).json('Password has been reset successfully');
+        res.status(200).json({ message: 'Password has been reset successfully' });
 
     } catch (error) {
-        next(error)
+        next(error); // Pass any unexpected errors to the error handler
     }
+};
 
-}
