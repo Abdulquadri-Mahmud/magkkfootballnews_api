@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Betslip from "../model/betslipModel.js";
+import { errorHandler } from "../utils/errorHandler.js";
 
 export const createBetslip = async (req, res, next) => {
     const {betslipCode, category, date} = req.body;
