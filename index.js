@@ -20,8 +20,9 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+//frontend domain add into cross origin
 const allowedOrigins = [
-    // 'https://www.footballbymagkk.com',
+    'https://www.footballbymagkk.com',
     'https://magkk-football-talk-dashboard.vercel.app',
     'http://localhost:5174',
 ];
