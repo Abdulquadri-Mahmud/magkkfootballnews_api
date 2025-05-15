@@ -72,7 +72,7 @@ export const deleteBetslip = async (req, res, next) => {
 
 export const deleteBetslipWithBodyId = async (req, res, next) => {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return next(errorHandler(404, 'Betslip Not Found!'));
