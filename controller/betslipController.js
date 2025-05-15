@@ -48,6 +48,7 @@ export const singleBetslip = async (req, res, next) => {
         next(error);
     }
 }
+
 export const deleteBetslip = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -67,6 +68,27 @@ export const deleteBetslip = async (req, res, next) => {
         next(error)
     }
 }
+
+export const deleteBetslipWithBodyId = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return next(errorHandler(404, 'Betslip Not Found!'));
+        }
+
+        const getBetslipAndDelete = await Betslip.findByIdAndDelete({ _id : id});
+
+        if (!getBetslipAndDelete) {
+            return next(errorHandler(404, 'Betslip Not Found!'));
+        }
+        
+        res.status(200).json('Betslip has been deleted successdully!');
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const updateBetslip = async (req, res, next) => {
     try {
         const { id } = req.params;
